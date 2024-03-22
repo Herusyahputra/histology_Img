@@ -1,5 +1,7 @@
 # Moilapp Plugin Histologi Bat
 
+23 Maret 2024 by Aziz
+
 ## Description
 
 The Moilapp Plugin Histologi Bat is designed to serve as an example for creating a new Moilapp plugin tailored to specific application needs. This template provides a foundation for developers to easily extend the functionality and utilities of plugin applications.
