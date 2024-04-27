@@ -21,14 +21,21 @@ class Controller(QWidget):
         self.set_stylesheet()
 
     def set_stylesheet(self):
+        self.ui.label_9.setStyleSheet(self.model.style_label_title())
+        self.ui.label_3.setStyleSheet(self.model.style_label_title())
+
         self.ui.label.setStyleSheet(self.model.style_label())
         self.ui.label_2.setStyleSheet(self.model.style_label())
         self.ui.label_4.setStyleSheet(self.model.style_label())
         self.ui.label_5.setStyleSheet(self.model.style_label())
         self.ui.label_6.setStyleSheet(self.model.style_label())
         self.ui.label_7.setStyleSheet(self.model.style_label())
-        self.ui.label_8.setStyleSheet(self.model.style_font_12())
-        self.ui.lbl_cell.setStyleSheet(self.model.style_font_12())
+
+        self.ui.frame_3.setStyleSheet(self.model.style_frame_main())
+        self.ui.frame_5.setStyleSheet(self.model.style_frame_object())
+
+        self.ui.frame_7.setStyleSheet(self.model.style_frame_main())
+        self.ui.frame_8.setStyleSheet(self.model.style_frame_object())
 
         self.ui.img_grafik.setStyleSheet(self.model.style_label())
         self.ui.img_ori.setStyleSheet(self.model.style_label())
@@ -36,6 +43,7 @@ class Controller(QWidget):
         self.ui.img_morph.setStyleSheet(self.model.style_label())
         self.ui.img_canny.setStyleSheet(self.model.style_label())
         self.ui.img_label.setStyleSheet(self.model.style_label())
+        self.ui.img_result.setStyleSheet(self.model.style_label())
 
         self.ui.btn_load.setStyleSheet(self.model.style_pushbutton())
         self.ui.btn_clear.setStyleSheet(self.model.style_pushbutton())
@@ -47,9 +55,13 @@ class Controller(QWidget):
         self.ui.btn_clear.clicked.connect(self.clearImg)
         self.ui.btn_save.clicked.connect(self.save_img)
 
+        self.ui.frame_crop.hide()
+
         # self.checkDir(f"./plugins/moilapp-plugin-histologi-bat/img_tmp")
 
         self.checkDir(self.path_img_save)
+
+        # self.
 
     def save_img(self):
         if self.render_image == False: return
@@ -65,7 +77,7 @@ class Controller(QWidget):
         self.ui.img_label.clear()
         self.ui.img_grafik.clear()
         self.ui.img_canny.clear()
-        self.ui.lbl_cell.clear()
+        self.ui.img_result.clear()
         self.image_original = None
         self.image = self.image_original
         self.render_image = False
@@ -99,14 +111,23 @@ class Controller(QWidget):
     def show_to_ui_img_1(self, img_path):
         self.checkDir(f"{self.path_img_save}/img_processing")
         img = cv2.imread(img_path)
-        size = 400
+        size = 388
+
+        # self.ui.btn_save.hasMouseTracking()
+        self.ui.frame_crop.hide()
+
+        self.ui.img_label.show()
+        self.ui.frame_7.show()
+        self.ui.img_grafik.show()
+        self.ui.label_7.show()
+        self.ui.label.show()
 
         self.morp_opr(img)
 
         switch_obj = cv2.imread(f"{self.path_img_save}/img_processing/switch-obj.png")
 
         self.labelling(switch_obj)
-        self.count_cell()
+        self.count_wide_cell()
 
         canny = cv2.imread(f"{self.path_img_save}/img_processing/canny.png")
         distace = cv2.imread(f"{self.path_img_save}/img_processing/distance.png")
@@ -140,15 +161,6 @@ class Controller(QWidget):
 
         # return img_mop
 
-    def switch_obj(self):
-        img_morp = cv2.imread(f"{self.path_img_save}/img_processing/morp.png", 0)
-        for i in range(0, img_morp.shape[0]):
-            for j in range(0, img_morp.shape[1]):
-                px = 255 if img_morp[i][j] == 0 else 0
-                img_morp[i][j] = px
-        cv2.imwrite(f"{self.path_img_save}/img_processing/switch-obj.png", img_morp)
-        # return  img_morp
-
     def labelling(self, switch_obj):
         # morph = cv2.imread(f"{self.path_img_save}morp.png")
         canny = cv2.Canny(switch_obj, 100, 200)
@@ -157,7 +169,7 @@ class Controller(QWidget):
         kontur1, _ = cv2.findContours(canny, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         cv2.drawContours(self.image_original, kontur1, -1, (0, 255, 0), 5)
 
-    def count_cell(self):
+    def count_wide_cell(self):
         img_switch = cv2.imread(f"{self.path_img_save}/img_processing/switch-obj.png")
         gray = cv2.cvtColor(img_switch, cv2.COLOR_BGR2GRAY)
         threshold = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
@@ -174,8 +186,6 @@ class Controller(QWidget):
         img_distace = cv2.imread(f"{self.path_img_save}/img_processing/distance.png", 0)
         kontur2, _ = cv2.findContours(img_distace, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         # mc = 264.5833  # 1 px = 264.5833 micrometer
-        self.ui.lbl_cell.setText(f"{len(kontur2)}")
-
 
         for i in range(0, len(kontur2)):
             ((x, y), r) = cv2.minEnclosingCircle(kontur2[i])
@@ -191,7 +201,15 @@ class Controller(QWidget):
 
         self.checkDir(dir_img_save_path)
 
-        self.model.show_image_to_label(self.ui.img_ori, self.image_original, 620)
+        self.ui.frame_crop.show()
+
+        self.ui.img_label.hide()
+        self.ui.frame_7.hide()
+        self.ui.img_grafik.hide()
+        self.ui.label_7.hide()
+        self.ui.label.hide()
+
+        self.model.show_image_to_label(self.ui.img_result, self.image_original, 620)
         self.crop_img(dir_img_save_path, img_path)
 
     def checkDir(self, path_dir):
@@ -249,6 +267,8 @@ class Controller(QWidget):
         # yPoit = np.array(self.y_point)
 
         plt.plot(self.x_point, self.y_point)
+        plt.xlabel("Total Cells")
+        plt.ylabel("Width Cells")
 
         plt.savefig(f"{self.path_img_save}/img_processing/graph.png")
 
