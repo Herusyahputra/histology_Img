@@ -242,6 +242,32 @@ QPushButton#btn_crop:hover {
              </widget>
             </item>
             <item>
+             <widget class="QComboBox" name="comboBox">
+              <item>
+               <property name="text">
+                <string>1280 x 720</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>1920 × 1080</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>2560 × 1440</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="totalCell">
+              <property name="text">
+               <string> Total Cell : </string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -441,7 +467,7 @@ QPushButton#btn_crop:hover {
                      <enum>QFrame::Sunken</enum>
                     </property>
                     <property name="text">
-                     <string>Cell Outline Detection</string>
+                     <string>Corner Detection</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -450,57 +476,6 @@ QPushButton#btn_crop:hover {
                   </item>
                   <item>
                    <widget class="QLabel" name="img_canny">
-                    <property name="text">
-                     <string/>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item>
-                <widget class="QFrame" name="frame_6">
-                 <property name="frameShape">
-                  <enum>QFrame::NoFrame</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_3">
-                  <item>
-                   <widget class="QLabel" name="label_6">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>25</height>
-                     </size>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>12</pointsize>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">background-color: rgb(222, 221, 218);</string>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::Box</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Sunken</enum>
-                    </property>
-                    <property name="text">
-                     <string>Change Color &amp; Enlerging Cells</string>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="img_morph">
                     <property name="text">
                      <string/>
                     </property>
@@ -537,7 +512,7 @@ QPushButton#btn_crop:hover {
                      <enum>QFrame::Sunken</enum>
                     </property>
                     <property name="text">
-                     <string>Separating Cells</string>
+                     <string>Diameter Detection</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -624,6 +599,45 @@ QPushButton#btn_crop:hover {
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_5">
                <item>
+                <widget class="QLabel" name="label_6">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>25</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(222, 221, 218);</string>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::Box</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Sunken</enum>
+                 </property>
+                 <property name="text">
+                  <string>Count Cell</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="img_count">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <widget class="QFrame" name="frame_10">
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
@@ -675,7 +689,7 @@ QPushButton#btn_crop:hover {
                      <enum>QFrame::Sunken</enum>
                     </property>
                     <property name="text">
-                     <string>Coloring Outline &amp; Calculating Cell Width</string>
+                     <string>Count Cell Diameter</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
